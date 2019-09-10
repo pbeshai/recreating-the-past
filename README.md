@@ -29,6 +29,9 @@ Sketches for the Recreating the Past class at the MIT Media Lab (Fall 2019)
 
 ### John Maeda
 
+Morisawa Poster
+
+
 **Original**
 
 <img src="images/rtp_3_maeda_original.jpg" width="300" />
@@ -36,7 +39,5 @@ Sketches for the Recreating the Past class at the MIT Media Lab (Fall 2019)
 **Recreation**
 
 <img src="images/rtp_3_maeda_recreation.jpg" width="300" />
-
-Morisawa Poster
 
 
