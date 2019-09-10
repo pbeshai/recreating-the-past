@@ -1,5 +1,5 @@
 # recreating-the-past
-Sketches for the Recreating the Past class at the MIT Media Lab (Fall 2019)
+Sketches for the Recreating the Past class at the MIT Media Lab (Fall 2019). Created in [openFrameworks](https://openframeworks.cc) v0.10.1.
 
 ## Sketches
 
