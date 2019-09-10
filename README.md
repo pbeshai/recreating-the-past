@@ -15,6 +15,8 @@ Sketches for the Recreating the Past class at the MIT Media Lab (Fall 2019)
 
 ### John Whitney Sr.
 
+From Catalog
+
 **Original**
 
 <img src="images/rtp_2_whitney_original1.jpg" width="300" />
