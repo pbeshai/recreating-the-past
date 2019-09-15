@@ -46,7 +46,7 @@ void ofApp::draw(){
     ofSeedRandom(0);
     
     float time = ofGetElapsedTimef();
-    float cellSize = ofMap(sin(time * 0.5 + PI), -1, 1, 8, 24);
+    float cellSize = ofMap(sin(time * 0.5 + PI), -1, 1, 20, 28);
     float noiseSmooth = ofMap(sin(time), -1, 1, 0.1, 0.8);
     int numPoints = (width * height) / cellSize;
     
@@ -55,15 +55,21 @@ void ofApp::draw(){
     float pointRadius = cellSize / 2.0;
     ofPushMatrix();
     ofTranslate(width / 2.0, height / 2.0);
-    float thetaOffset = ofMap(sin(time * 0.1), -1, 1, -0.002, 0.002);
-    
+    float thetaOffset = ofMap(sin(time * 0.1 + 3.75), -1, 1, -0.002, 0.002);
+    float phylloRotationTheta = ofMap(sin(time * 0.5 + 4.3), -1, 1, -HALF_PI, HALF_PI);
     for (int i = 0; i < numPoints; i += 1) {
         int index = i;
         float thetaOffsetAmount = i / ((float)numPoints);
         float phylloX = pointRadius * sqrt(index) * cos(index * (theta + thetaOffset * thetaOffsetAmount));
         float phylloY = pointRadius * sqrt(index) * sin(index * (theta + thetaOffset * thetaOffsetAmount));
-        float imageX = (phylloX + width / 2.0);
-        float imageY = (phylloY + height / 2.0);
+        
+        // apply rotation
+        float x = phylloX * cos(phylloRotationTheta) - phylloY * sin(phylloRotationTheta);
+        float y = phylloX * sin(phylloRotationTheta) + phylloY * cos(phylloRotationTheta);
+        
+        
+        float imageX = (x + width / 2.0);
+        float imageY = (y + height / 2.0);
         
         // skip for efficiency
         if (imageX < -cellSize || imageX > width + cellSize || imageY < -cellSize || imageY > height + cellSize) {
@@ -77,7 +83,7 @@ void ofApp::draw(){
                                                      ofClamp(floor(imageY), 0, height -1 ));
         float brightness = color.getBrightness();
         ofPushMatrix();
-        ofTranslate(phylloX, phylloY);
+        ofTranslate(x, y);
 //        ofDrawCircle(0, 0, pointRadius * 0.8);
         
         ofTranslate(pointRadius, pointRadius);
@@ -91,7 +97,7 @@ void ofApp::draw(){
 ////
 //
 ////    int cellSize = ofMap(mouseY, 0, ofGetHeight(), 3, 100);
-//    
+//
 ////    float width = ofGetWidth();
 ////    float height = ofGetHeight();
 ////    ofPushMatrix();
