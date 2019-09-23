@@ -23,6 +23,7 @@ class ofApp : public ofBaseApp{
 		
     ofImage imgBuffer1;
     ofImage imgBuffer2;
+    ofImage imgBuffer3;
     ofPixels pxBuffer1;
     ofPixels pxBuffer2;
     ofFbo fboBuffer1;

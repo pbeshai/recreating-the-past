@@ -7,7 +7,7 @@ Sketches for the Recreating the Past class at the MIT Media Lab (Fall 2019). Cre
 
 **Original**
 
-<img src="images/rtp_1_molnar_original.jpg" width="300" /> 
+<img src="images/rtp_1_molnar_original.jpg" width="300" />
 
 **Recreation**
 
@@ -39,3 +39,29 @@ Morisawa Poster
 <img src="images/rtp_3_maeda_recreation.jpg" width="300" />
 
 
+
+
+### Ken Knowlton
+
+Blob Mosaic
+
+**Recreation**
+
+<img src="images/rtp_4_knowlton_recreation.jpg" width="300" />
+
+
+
+### Lillian Schwartz
+
+Dilating banded rectangles
+
+**Recreation**
+
+<img src="images/rtp_4_schwartz_recreation.jpg" width="300" />
+
+
+Noise bands
+
+**Recreation 2**
+
+<img src="images/rtp_4_schwartz2_recreation.jpg" width="300" />

@@ -1,6 +1,24 @@
 #include "ofApp.h"
 
 
+void subtract(ofImage & imgA, ofImage & imgB){
+    // subtract b from a, storing in a
+    for (int i = 0; i < imgA.getWidth(); i++){
+        for (int j = 0; j < imgA.getHeight(); j++){
+            float delta = MAX(0, imgA.getColor(i, j).getBrightness() -
+                              imgB.getColor(i, j).getBrightness());
+            imgA.setColor(i, j, ofColor(delta));
+        }
+    }
+}
+
+void invert(ofImage & img){
+    for (int i = 0; i < img.getWidth(); i++){
+        for (int j = 0; j < img.getHeight(); j++){
+             img.setColor(i, j, ofColor(255 - img.getColor(i, j).getBrightness()));
+        }
+    }
+}
 
 void dilate( ofImage & imgA, ofImage & imgB){
     
@@ -101,11 +119,12 @@ void erode( ofImage & imgA, ofImage & imgB){
     
 }
 
-void drawConcRect(float x, float y, float width, float height, float thickness = 10) {
+void drawConcRect(float x, float y, float width, float height, float thickness = 10, float degrees = 0) {
     ofSetRectMode(OF_RECTMODE_CENTER);
     ofPushMatrix();
-    ofTranslate(x, y);
     
+    ofTranslate(x, y);
+    ofRotateZDeg(degrees);
     float w = width;
     float h = height;
     float color = 255;
@@ -138,17 +157,35 @@ void ofApp::setup(){
     ofBackground(0);
     ofSetColor(255);
     ofFill();
+    ofSeedRandom(10);
     
     ofPushMatrix();
-    drawConcRect(ofGetWidth() / 2, ofGetHeight() / 2, 95, 95, 10);
+    int numShapes = 40;
+    int maxWidth = ofGetWidth() * 0.25;
+    int maxHeight = ofGetHeight() * 0.25;
+    int maxThick = 10;
+    
+    for (int i = 0; i < numShapes; ++i) {
+        float x = ofRandom(0, ofGetWidth());
+        float y = ofRandom(0, ofGetHeight());
+        float thickness = ofRandom(maxThick * 0.5, maxThick);
+        float width = ofRandom(0, maxWidth);
+        float height = ofRandom(0, maxHeight);
+        float degrees = ofRandom(0, 1) < 0.25 ? 45 : 0;
+        drawConcRect(x, y, width, height, thickness, degrees);
+    }
+//    drawConcRect(ofGetWidth() / 2 + 100, ofGetHeight() / 2, 195, 95, 10);
     ofPopMatrix();
 //    pxBuffer1.end();
 //    imgBuffer1.setFromPixels(pxBuffer1);
+    
+//    drawConcRect(ofGetWidth() / 2, ofGetHeight() / 2, 35, 35, 5, 45);
 //
     fboBuffer1.end();
     fboBuffer1.readToPixels(pxBuffer1);
     imgBuffer1.setFromPixels(pxBuffer1);
     imgBuffer2.setFromPixels(pxBuffer1);
+    imgBuffer3.setFromPixels(pxBuffer1);
 }
 
 //--------------------------------------------------------------
@@ -173,8 +210,22 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    erode(imgBuffer1, imgBuffer2);
-    imgBuffer1.setFromPixels(imgBuffer2);
+    int numRounds = 4;
+    imgBuffer3.setFromPixels(imgBuffer1);
+    bool useDilate = ofRandom(0, 1) < 0.8;
+    for (int i = 0; i < numRounds; ++i) {
+        if (useDilate) {
+            dilate(imgBuffer3, imgBuffer2);
+        } else {
+            erode(imgBuffer3, imgBuffer2);
+            useDilate = true;
+        }
+        imgBuffer3.setFromPixels(imgBuffer2);
+    }
+//    imgBuffer2.update();
+//    invert(imgBuffer3);
+    subtract(imgBuffer3, imgBuffer1);
+    imgBuffer1.setFromPixels(imgBuffer3);
 //    imgBuffer1.update();
 }
 
