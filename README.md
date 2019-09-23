@@ -47,7 +47,7 @@ Blob Mosaic
 
 **Recreation**
 
-<img src="images/rtp_4_knowlton_recreation.jpg" width="300" />
+<img src="images/rtp_4_knowlton_recreation.png" width="300" />
 
 
 
@@ -57,11 +57,11 @@ Dilating banded rectangles
 
 **Recreation**
 
-<img src="images/rtp_4_schwartz_recreation.jpg" width="300" />
+<img src="images/rtp_4_schwartz_recreation.png" width="300" />
 
 
 Noise bands
 
 **Recreation 2**
 
-<img src="images/rtp_4_schwartz2_recreation.jpg" width="300" />
+<img src="images/rtp_4_schwartz2_recreation.png" width="300" />

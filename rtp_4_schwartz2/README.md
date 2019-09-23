@@ -4,4 +4,4 @@ Noise bands
 
 **Recreation 2**
 
-<img src="../images/rtp_4_schwartz2_recreation.jpg" width="300" />
+<img src="../images/rtp_4_schwartz2_recreation.png" width="300" />
