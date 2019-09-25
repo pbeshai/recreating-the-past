@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    grabber.setDeviceID(1); // use external webcam
+    grabber.setDeviceID(0); // use external webcam with '1'
     grabber.setup(640, 480);
     tracker.setup();
     targetImg.load("katie.jpg");
@@ -177,30 +177,113 @@ void ofApp::draw(){
     
     if (trackerSource.size() > 0 && trackerTarget.size() > 0) {
         auto &sourceLandmarks = trackerSource.getInstances()[0].getLandmarks();
-        ofMesh sourceMesh = sourceLandmarks.getImageMesh();
+        auto sourcePts = sourceLandmarks.getImagePoints();
+        
+        ofxDelaunay sourceTri;
+        for (int i = 0; i < sourcePts.size(); ++i) {
+            sourceTri.addPoint(sourcePts[i]);
+        }
+        sourceTri.triangulate();
+        ofMesh sourceMesh = sourceTri.triangleMesh;
+        
+//        ofMesh sourceMesh = sourceLandmarks.getImageMesh();
         auto sourceVx = sourceMesh.getVertices();
         int numSourceVx = sourceVx.size();
         
         auto &targetLandmarks = trackerTarget.getInstances()[0].getLandmarks();
-        ofMesh targetMesh = targetLandmarks.getImageMesh();
+        auto targetPts = targetLandmarks.getImagePoints();
+        
+        ofxDelaunay targetTri;
+        for (int i = 0; i < targetPts.size(); ++i) {
+            targetTri.addPoint(targetPts[i]);
+        }
+        targetTri.triangulate();
+        ofMesh targetMesh = targetTri.triangleMesh;
+//        ofMesh targetMesh = targetLandmarks.getImageMesh();
         auto targetVx = targetMesh.getVertices();
         int numTargetVx = targetVx.size();
         
+        
+        
+        
+        // create a mesh based on these points...
+        //        ofMesh sourceMeshFromPts;
+        
+//        ofSetColor(255, 255, 0);
+//        ofNoFill();
+//        sourceTri.draw();
+//        ofFill();
+        
+        // find x and y extents for target and source vertices
+        glm::vec2 sourceXExtent(0, 0);
+        glm::vec2 sourceYExtent(0, 0);
+        glm::vec2 targetXExtent(0, 0);
+        glm::vec2 targetYExtent(0, 0);
+
+        for (int i = 0; i < numSourceVx; ++i) {
+            if (sourceVx[i].x < sourceXExtent[0]) {
+                sourceXExtent[0] = sourceVx[i].x;
+            }
+            if (sourceVx[i].x > sourceXExtent[1]) {
+                sourceXExtent[1] = sourceVx[i].x;
+            }
+            if (sourceVx[i].y < sourceYExtent[0]) {
+                sourceYExtent[0] = sourceVx[i].y;
+            }
+            if (sourceVx[i].y > sourceYExtent[1]) {
+                sourceYExtent[1] = sourceVx[i].y;
+            }
+        }
+        for (int i = 0; i < numTargetVx; ++i) {
+            if (targetVx[i].x < targetXExtent[0]) {
+                targetXExtent[0] = targetVx[i].x;
+            }
+            if (targetVx[i].x > targetXExtent[1]) {
+                targetXExtent[1] = targetVx[i].x;
+            }
+            if (targetVx[i].y < targetYExtent[0]) {
+                targetYExtent[0] = targetVx[i].y;
+            }
+            if (targetVx[i].y > targetYExtent[1]) {
+                targetYExtent[1] = targetVx[i].y;
+            }
+        }
+//        cout << sourceXExtent << " " << sourceYExtent << " " << targetXExtent  << " " << targetYExtent << endl;
+//
         // add the closest corresponding vertex in the target as a tex coordinate here
         // (note: order and number of vertices is not meaningful between meshes)
+        cout << numSourceVx << " " << numTargetVx << endl;
+        
+
         for (int i = 0; i < numSourceVx; ++i) {
-//            auto vx = targetVx[MIN(i, numTargetVx - 1)];
+
+            //            auto vx = targetVx[MIN(i, numTargetVx - 1)];
             glm::vec2 vx;
+            vx = targetVx[i];
+#if 0
             float minDistance = 10000000;
+            
+            
+            
+            glm::vec2 sourceVxNorm = (sourceVx[i] - glm::vec2(sourceXExtent[0], sourceYExtent[0])) /
+                (glm::vec2(sourceXExtent[1], sourceYExtent[1]) - glm::vec2(sourceXExtent[0], sourceYExtent[0]));
+            
             for (int j = 0; j < numTargetVx; ++j) {
-                float dist = glm::fastDistance(sourceVx[i], targetVx[j]);
+                glm::vec2 targetVxNorm = (targetVx[j] - glm::vec2(targetXExtent[0], targetYExtent[0])) /
+                    (glm::vec2(targetXExtent[1], targetYExtent[1]) - glm::vec2(targetXExtent[0], targetYExtent[0]));
+//
+                float dist = glm::fastDistance(sourceVxNorm, targetVxNorm);
+//                float dist = glm::distance(sourceVx[i], targetVx[j]);
                 if (dist < minDistance) {
                     vx = targetVx[j];
                     minDistance = dist;
                 }
             }
+#endif
             sourceMesh.addTexCoord(vx);
+            
         }
+
         
         // draw a 50% img of the target texture on the source img mesh
 //        ofSetColor(255, 255, 255, 128);
@@ -225,6 +308,10 @@ void ofApp::draw(){
             ofSetColor(255);
         }
         
+        
+//        for (int i = 0; i < pts.size(); ++i) {
+//            ofDrawCircle(pts[i], 3);
+//        }
         
     }
     ofPopMatrix();
@@ -263,6 +350,19 @@ void ofApp::draw(){
         if (showWireframe) {
             ofSetColor(0, 255, 0);
             targetMesh.drawWireframe();
+            ofSetColor(255);
+            
+            auto &targetLandmarks = trackerTarget.getInstances()[0].getLandmarks();
+            auto targetPts = targetLandmarks.getImagePoints();
+            
+            ofxDelaunay targetTri;
+            for (int i = 0; i < targetPts.size(); ++i) {
+                targetTri.addPoint(targetPts[i]);
+            }
+            targetTri.triangulate();
+            ofMesh targetMesh2 = targetTri.triangleMesh;
+            ofSetColor(255, 255, 0);
+            targetMesh2.drawWireframe();
             ofSetColor(255);
         }
         

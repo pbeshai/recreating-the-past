@@ -1,3 +1,4 @@
 ofxCv
+ofxDelaunay
 ofxFaceTracker2
 ofxOpenCv

@@ -2,9 +2,10 @@
 
 #include "ofMain.h"
 #include "ofxFaceTracker2.h"
+#include "ofxDelaunay.h"
 
 class ofApp : public ofBaseApp{
-
+    
 	public:
 		void setup();
 		void update();
