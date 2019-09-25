@@ -5,6 +5,7 @@
 
 */bin/*
 !*/bin/data/
+shape_predictor_68_face_landmarks.dat
 
 #########
 # general
