@@ -9,7 +9,7 @@ void main()
 
     vec2 pos = gl_FragCoord.xy;
     pos.y = 480. - pos.y;
-    pos.x -= 300.; // not sure why this is needed...
+    pos.x -= 300.; // we are translated -100, then 400 pixels. lazy fix
     vec3 sourceColor = texture2DRect(sourceImg, pos).rgb;
     vec3 targetColor = texture2DRect(targetImg, texCoord).rgb;
     vec3 color = mix(sourceColor, targetColor, clamp(mouse.x / screen.x, 0., 1.));

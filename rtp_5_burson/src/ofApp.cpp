@@ -95,6 +95,11 @@ void ofApp::draw(){
     ofPushMatrix();
     ofTranslate(-100, 0);
     
+    ofPushMatrix();
+    ofTranslate(400, 0);
+    sourceImg.draw(0, 0);
+    ofPopMatrix();
+    
     // draw camera to screen
     // cameraFbo.draw(0, 0);
     
