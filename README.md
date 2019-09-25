@@ -65,3 +65,12 @@ Noise bands
 **Recreation 2**
 
 <img src="images/rtp_4_schwartz2_recreation.png" width="300" />
+
+
+### Nancy Burson
+
+Blended faces
+
+**Recreation**
+
+<img src="images/rtp_5_burson_recreation.png" width="300" />
