@@ -74,3 +74,13 @@ Blended faces
 **Recreation**
 
 <img src="images/rtp_5_burson_recreation.png" width="300" />
+
+
+
+### Video / Woody and Steina Vasulka 
+
+Slit Scan + "ruttExtra" from zach repo
+
+**Recreation**
+
+<img src="images/rtp_6_video.png" width="300" />
